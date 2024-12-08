@@ -13,6 +13,7 @@ def getValWithout(val, without):
 
 
 def tryEq(testVal, nums):
+    print(testVal, nums)
     if len(nums) == 1:
         return testVal == nums[0]
     if tryEq(testVal - nums[-1], nums[:-1]):
