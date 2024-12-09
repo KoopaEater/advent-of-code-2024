@@ -12,7 +12,7 @@ for y, line in enumerate(inputLines):
         if not symbol in locMap:
             locMap[symbol] = [(x, y)]
         else:
-            locMap[symbol].append((x,y))     
+            locMap[symbol].append((x,y))
             
 antinodes = set()
 
