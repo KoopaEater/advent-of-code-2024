@@ -1,4 +1,4 @@
-inputFile = open("./10/sampleInput.txt", "r")
+inputFile = open("./10/input.txt", "r")
 inputLines = list(map(lambda line: line.rstrip("\n"), inputFile.readlines()))
 lines = len(inputLines)
 lineLength = len(inputLines[0])
@@ -35,7 +35,7 @@ sum = 0
 for y, line in enumerate(topoMap):
     for x, height in enumerate(line):
         endSet = set()
-        findTrails(0, x, y, endSet)
+        findTrails(x, y, 0, endSet)
         sum += len(endSet)
 
 print(sum)
