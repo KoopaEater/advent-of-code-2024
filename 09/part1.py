@@ -5,63 +5,54 @@ diskMap = inputLines[0]
 def diskMapToDiskSpace(diskMap):
     state = "FILE"
     id = 0
-    diskSpace = ""
+    diskSpace = []
     for symbol in diskMap:
-        symToWrite = "#" + str(id) if state == "FILE" else "."
+        symToWrite = id if state == "FILE" else None
         for _ in range(int(symbol)):
-            diskSpace += symToWrite
+            diskSpace.append(symToWrite)
         if state == "FREE":
             id += 1
             state = "FILE"
         else:
             state = "FREE"
     return diskSpace
-    
-def findPrevNum(someList, j):
-    num = []
-    while j >= 0 and someList[j] != "#":
-        if someList[j] != ".":
-            num.insert(0, someList[j])
-        j -= 1
-    return j-1, ["#"] + num
 
-def findNextNum(someList, i):
-    num = []
-    while i < len(someList) and someList[i] != "#":
-        if someList[i] != ".":
-            num.append(someList[i])
-        i += 1
-    return i+1, int("".join(num))
-
-def diskSpaceToCompressed(diskSpace: str):
+def diskSpaceToCompressed(diskSpace):
     compressed = []
     i = 0
     j = len(diskSpace) - 1
-    diskSpaceAsList = list(diskSpace)
     while i <= j:
-        sym = diskSpaceAsList[i]
+        id = diskSpace[i]
         i += 1
-        if sym != ".":
-            compressed.append(sym)
+        if id != None:
+            compressed.append(id)
         else:
-            j, numToBeMoved = findPrevNum(diskSpaceAsList, j)
-            compressed += numToBeMoved
-    return "".join(compressed)
+            while diskSpace[j] == None:
+                j -= 1
+                if j <= i:
+                    break
+            else:
+                compressed.append(diskSpace[j])
+                j -= 1
+    return compressed
 
-def calcChecksum(compressed: str):
+def calcChecksum(compressed):
     checksum = 0
-    i = 1
-    index = 0
-    compressedAsList = list(compressed)
-    while i < len(compressedAsList):
-        i, num = findNextNum(compressedAsList, i)
-        checksum += index * num
-        # print(index, "*", num, "=", index*num, "total=", checksum)
-        index += 1
+    for i, id in enumerate(compressed):
+        checksum += i * id
     return checksum
-        
+
+def convertStrToDiskSpace(someStr):
+    diskSpace = []
+    for sym in someStr:
+        if sym == ".":
+            diskSpace.append(None)
+        else:
+            diskSpace.append(int(sym))
+    return diskSpace
 
 diskSpace = diskMapToDiskSpace(diskMap)
+# diskSpace = convertStrToDiskSpace("0..111....22222")
 print(diskSpace)
 compressed = diskSpaceToCompressed(diskSpace)
 print(compressed)
