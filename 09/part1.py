@@ -21,7 +21,7 @@ def diskSpaceToCompressed(diskSpace):
     compressed = []
     i = 0
     j = len(diskSpace) - 1
-    while i <= j:
+    while i < j:
         id = diskSpace[i]
         i += 1
         if id != None:
@@ -29,11 +29,11 @@ def diskSpaceToCompressed(diskSpace):
         else:
             while diskSpace[j] == None:
                 j -= 1
-                if j <= i:
-                    break
-            else:
-                compressed.append(diskSpace[j])
-                j -= 1
+            compressed.append(diskSpace[j])
+            j -= 1
+    if i == j and diskSpace[i] != None:
+        compressed.append(diskSpace[i])
+        
     return compressed
 
 def calcChecksum(compressed):
@@ -53,8 +53,8 @@ def convertStrToDiskSpace(someStr):
 
 diskSpace = diskMapToDiskSpace(diskMap)
 # diskSpace = convertStrToDiskSpace("0..111....22222")
-print(diskSpace)
+# print(diskSpace)
 compressed = diskSpaceToCompressed(diskSpace)
-print(compressed)
+# print(compressed)
 checksum = calcChecksum(compressed)
 print(checksum)
